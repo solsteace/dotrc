@@ -1,6 +1,6 @@
 # dotrc
 
-[Preview](./_assets/_preview.png)
+![Preview](./_assets/_preview.png)
 
 > Preview would regularly be updated!
 
