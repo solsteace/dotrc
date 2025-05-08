@@ -1,8 +1,17 @@
 # dotrc
 
-> We will not repeat the same mistake again
+[Preview](./_assets/_preview.png)
 
-## Available Configs
+> Preview would regularly be updated!
+
+## Why another config repo?
+
+The previous one was lack of documentation. It becomes a pain when I try to fiddle around with the settings. This config repo hopefully would rectify that.
+
+> It won't happen again.
+
+## Programs
+
 [![Neovim](https://img.shields.io/badge/NeoVim-%2357A143.svg?&style=for-the-badge&logo=neovim&logoColor=white)](./nvim/)
 [![Git](https://img.shields.io/badge/git-%23F05033.svg?style=for-the-badge&logo=git&logoColor=white)](./git/)
 [Kitty](./kitty/)
