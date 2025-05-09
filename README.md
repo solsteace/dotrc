@@ -6,7 +6,7 @@
 
 ## Why another config repo?
 
-The previous one was lack of documentation. It becomes a pain when I try to fiddle around with the settings. This config repo hopefully would rectify that.
+[The previous one](https://github.com/solsteace/dotfiles) was lack of documentation. It becomes a pain when I try to fiddle around with the settings. This config repo hopefully would rectify that.
 
 > It won't happen again.
 
