@@ -41,7 +41,7 @@ genPS1() {
 
 	prompt=""
 	prompt+="$(withRGBColor "\u@\W" $CATP_BLUE)";
-	prompt+="$(withRGBColor ' $(__git_ps1 "(%s)")' $CATP_YELLOW)";
+	prompt+="$(withRGBColor '$(__git_ps1 " (%s)")' $CATP_YELLOW)";
 
 	echo -e "$prompt \$ "
 }
