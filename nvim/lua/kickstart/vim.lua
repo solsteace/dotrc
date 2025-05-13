@@ -82,3 +82,10 @@ vim.opt.wrap = false
 -- instead raise a dialog asking if you wish to save the current file(s)
 -- See `:help 'confirm'`
 vim.opt.confirm = true
+
+-- Use space for tabs instead of `\t` (Activation may conflict with vim-sleuth)
+vim.opt.expandtab = true
+
+-- How many characters is one `\t` char is? (Activation may conflict with vim-sleuth)
+vim.opt.shiftwidth = 4
+vim.opt.tabstop = 4
