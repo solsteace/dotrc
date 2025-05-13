@@ -126,7 +126,8 @@ vim.opt.rtp:prepend(lazypath)
 -- NOTE: Here is where you install your plugins.
 require('lazy').setup({
   -- NOTE: Plugins can be added with a link (or for a github repo: 'owner/repo' link).
-  'tpope/vim-sleuth', -- Detect tabstop and shiftwidth automatically
+  --
+  -- 'tpope/vim-sleuth', -- Detect tabstop and shiftwidth automatically
 
   -- NOTE: Plugins can also be added by using a table,
   -- with the first argument being the link and the following
@@ -420,6 +421,7 @@ require('lazy').setup({
           -- Rename the variable under your cursor.
           --  Most Language Servers support renaming across files, etc.
           map('grn', vim.lsp.buf.rename, '[R]e[n]ame')
+          map('<F2>', vim.lsp.buf.rename, '[R]e[n]ame') -- VSCode-like keymap
 
           -- Execute a code action, usually your cursor needs to be on top of an error
           -- or a suggestion from your LSP for this to activate.
@@ -650,7 +652,7 @@ require('lazy').setup({
         end
       end,
       formatters_by_ft = {
-        lua = { 'stylua' },
+        lua = { 'stylua', 'prettier' },
         -- Conform can also run multiple formatters sequentially
         -- python = { "isort", "black" },
         --
@@ -719,9 +721,9 @@ require('lazy').setup({
         --
         -- See :h blink-cmp-config-keymap for defining your own keymap
         preset = 'default',
-        ['<C-j>'] = { 'select_next', 'fallback' },
-        ['<C-k>'] = { 'select_prev', 'fallback' },
-        ['<Enter>'] = { 'accept', 'fallback' },
+        ['<M-j>'] = { 'select_next', 'fallback' },
+        ['<M-k>'] = { 'select_prev', 'fallback' },
+        ['<M-Enter>'] = { 'accept', 'fallback' },
 
         -- For more advanced Luasnip keymaps (e.g. selecting choice nodes, expansion) see:
         --    https://github.com/L3MON4D3/LuaSnip?tab=readme-ov-file#keymaps
@@ -734,9 +736,110 @@ require('lazy').setup({
       },
 
       completion = {
+        menu = {
+          draw = { -- Source: https://cmp.saghen.dev/configuration/reference.html#completion-menu-draw
+            -- Aligns the keyword you've typed to a component in the menu
+            align_to = 'label', -- or 'none' to disable, or 'cursor' to align to the cursor
+            -- Left and right padding, optionally { left, right } for different padding on each side
+            padding = 1,
+            -- Gap between columns
+            gap = 1,
+            -- Priority of the cursorline highlight, setting this to 0 will render it below other highlights
+            cursorline_priority = 10000,
+            -- Use treesitter to highlight the label text for the given list of sources
+            treesitter = { 'lsp' },
+
+            -- Components to render, grouped by column
+            -- See `:h blink-cmp-config-appearance` (on `Menu Draw` section)
+            columns = { { 'label', 'label_description', 'source_name', 'kind', gap = 1 } },
+
+            -- Definitions for possible components to render. Each defines:
+            --   ellipsis: whether to add an ellipsis when truncating the text
+            --   width: control the min, max and fill behavior of the component
+            --   text function: will be called for each item
+            --   highlight function: will be called only when the line appears on screen
+            components = {
+              kind_icon = { -- Config for `kind_icon`
+                ellipsis = true,
+                text = function(ctx)
+                  return ctx.kind_icon .. ctx.icon_gap
+                end,
+                -- Set the highlight priority to 20000 to beat the cursorline's default priority of 10000
+                highlight = function(ctx)
+                  return { { group = ctx.kind_hl, priority = 20000 } }
+                end,
+              },
+
+              kind = { -- Config for `kind`
+                ellipsis = false,
+                width = { fill = true },
+                text = function(ctx)
+                  return ctx.kind
+                end,
+                highlight = function(ctx)
+                  return ctx.kind_hl
+                end,
+              },
+
+              label = { -- Config for `label`
+                width = { fill = true, max = 60 },
+                text = function(ctx)
+                  return ctx.label .. ctx.label_detail
+                end,
+                highlight = function(ctx)
+                  -- label and label details
+                  local highlights = {
+                    { 0, #ctx.label, group = ctx.deprecated and 'BlinkCmpLabelDeprecated' or 'BlinkCmpLabel' },
+                  }
+                  if ctx.label_detail then
+                    table.insert(highlights, { #ctx.label, #ctx.label + #ctx.label_detail, group = 'BlinkCmpLabelDetail' })
+                  end
+
+                  -- characters matched on the label by the fuzzy matcher
+                  for _, idx in ipairs(ctx.label_matched_indices) do
+                    table.insert(highlights, { idx, idx + 1, group = 'BlinkCmpLabelMatch' })
+                  end
+
+                  return highlights
+                end,
+              },
+
+              label_description = { -- Config for `label_description`
+                width = { max = 30 },
+                text = function(ctx)
+                  return ctx.label_description
+                end,
+                highlight = 'BlinkCmpLabelDescription',
+              },
+
+              -- Get the detail from which module the suggestion came from.
+              -- Might be differ on each LSP so better refactor it later: https://github.com/Saghen/blink.cmp/issues/97#issuecomment-2423300134
+              source_name = { -- Config for `source_name`
+                width = { max = 30 },
+                text = function(ctx)
+                  return ctx.item.detail
+                end,
+                highlight = 'BlinkCmpSource',
+              },
+
+              source_id = { -- Config for `source_id`
+                width = { max = 30 },
+                text = function(ctx)
+                  return ctx.source_id
+                end,
+                highlight = 'BlinkCmpSource',
+              },
+            },
+          },
+        },
+
         -- By default, you may press `<c-space>` to show the documentation.
         -- Optionally, set `auto_show = true` to show the documentation after a delay.
-        documentation = { auto_show = false, auto_show_delay_ms = 500 },
+        documentation = {
+          auto_show = true,
+          auto_show_delay_ms = 169,
+          window = { border = 'single' },
+        },
       },
 
       sources = {
