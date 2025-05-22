@@ -14,9 +14,9 @@
 
 [![Neovim](https://img.shields.io/badge/NeoVim-%2357A143.svg?&style=for-the-badge&logo=neovim&logoColor=white)](./nvim/)
 [![Git](https://img.shields.io/badge/git-%23F05033.svg?style=for-the-badge&logo=git&logoColor=white)](./git/)
-[Kitty](./kitty/)
-[Tmux](./tmux/)
-[Bash](./bash/)
+[![Bash](https://img.shields.io/badge/bash-%2314162c.svg?style=for-the-badge&logo=gnu-bash&logoColor=white)](./bash/)
+[![Tmux](https://img.shields.io/badge/-Tmux-3C3C3C?style=for-the-badge)](./tmux/)
+[![Kitty](https://img.shields.io/badge/-Kitty-7C4A28?style=for-the-badge)](./kitty/)
 
 ## Installation
 
@@ -25,14 +25,21 @@
     git clone git@github.com:solsteace/dotrc.git
     ```
 
-2. The easiest way to install the configurations are to create a symlink pointing to the config files here\*, like the following. An alternative way would be added on the respective directories.
+2. The easiest way to install the configurations is to create a symlink pointing to the config files here\*. An alternative way would be added on the respective directories.
 
     ``` bash
-    $ ln /path/to/config /path/to/original/config
-
-    # Assume `dotrc` is the path to this cloned repo
-    # Example for Neovim:
-    dotrc $ ln -sf ~/.config/nvim/ dotrc/nvim/
+    ln /path/to/dotrc/config /path/to/program/config
+    ```
+    
+    With pwd `/path/to/dotrc`, here are the examples:
+   
+    ```bash
+    # User's Bash
+    ln -s ./bash/.bashrc ~/.bashrc
+    ln -s ./bash/.bashrc.d/ ~/.bashrc.d/
+    
+    # Neovim
+    ln -s ./nvim/ ~/.config/nvim/
     ```
 
     > \* Not sure whether it would have a side effect in the future, but for now it kinda works
