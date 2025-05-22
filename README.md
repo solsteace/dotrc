@@ -28,7 +28,7 @@
 2. The easiest way to install the configurations is to create a symlink pointing to the config files here\*. An alternative way would be added on the respective directories.
 
     ``` bash
-    ln /path/to/dotrc/config /path/to/program/config
+    ln /path/to/dotrc/program/config /path/to/actual/program/config
     ```
     
     With pwd `/path/to/dotrc`, here are the examples:
@@ -36,10 +36,10 @@
     ```bash
     # User's Bash
     ln -s ./bash/.bashrc ~/.bashrc
-    ln -s ./bash/.bashrc.d/ ~/.bashrc.d/
+    ln -s ./bash/.bashrc.d/ ~/.bashrc.d
     
     # Neovim
-    ln -s ./nvim/ ~/.config/nvim/
+    ln -s ./nvim/ ~/.config/nvim
     ```
 
     > \* Not sure whether it would have a side effect in the future, but for now it kinda works
