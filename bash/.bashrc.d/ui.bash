@@ -11,13 +11,15 @@ if [[ ! -d "$HERE" ]]; then HERE="$PWD"; fi
 
 . "${HERE}/vendor/git-prompt.sh"
 
+# If the $PWD is deep enough, truncate it except these ... last directories
+PROMPT_DIRTRIM=2
+
 withRGBColor() {
 	res="\x01\x1B[38;2;" 
 	res+=$2;
 	res+="m\x02";
 	
-	# Add background
-	if [ $# -eq 3 ] 
+	if [ $# -eq 3 ] # With background
 	then 
 		res+="\[\x1B[48;2;" 
 		res+=$3 
@@ -39,11 +41,11 @@ genPS1() {
 	CATP_BLUE="137;180;250";
 	CATP_LAVENDER="180;190;254";
 
-	prompt=""
-	prompt+="$(withRGBColor "\u@\W" $CATP_MAUVE)";
-	prompt+="$(withRGBColor '$(__git_ps1 " (%s)")' $CATP_YELLOW)";
-
-	echo -e "$prompt \$ "
+    prompt+="$(withRGBColor "\u@\H" $CATP_MAUVE)";
+    prompt+="$(withRGBColor '$(__git_ps1 " (%s)")' $CATP_YELLOW)"; 
+    prompt+=" \w\n"
+    prompt+="$(withRGBColor "╰" $CATP_MAUVE)$(withRGBColor "╼" $CATP_YELLOW) \$ "
+    echo -e "$prompt"
 }
 
 PS1="\n$(genPS1)"
